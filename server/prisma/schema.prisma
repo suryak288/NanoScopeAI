@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String     @id @default(uuid())
+  email          String     @unique
+  password       String
+  plan           String     @default("trial")
+  analysis_count Int        @default(0)
+  created_at     DateTime   @default(now())
+  analyses       Analysis[]
+}
+
+model Analysis {
+  id                  String   @id @default(uuid())
+  image_url           String
+  image_name          String
+  annotated_image_url String?
+  insights_diagram_url String?
+  image_type          String?
+  particle_count      Int
+  average_size        Float
+  min_size            Float
+  max_size            Float
+  standard_deviation  Float
+  uniformity_index    Float
+  size_distribution   Json
+  shape_distribution  Json
+  particles           Json?
+  color_analysis      Json?
+  pattern_analysis    Json?
+  quality_metrics     Json?
+  analysis_notes      String?
+  status              String   @default("COMPLETED")
+  created_at          DateTime @default(now())
+  
+  user_id             String?
+  user                User?    @relation(fields: [user_id], references: [id])
+}

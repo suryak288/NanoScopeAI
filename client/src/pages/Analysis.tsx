@@ -1,0 +1,271 @@
+import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UploadCloud, FileImage, X, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { cn } from '../utils/cn';
+
+const STAGES = [
+    'Image Upload',
+    'Vision Analysis',
+    'Annotated Visualization',
+    'Insights Diagram',
+    'Data Storage'
+];
+
+export default function Analysis() {
+    const [dragActive, setDragActive] = useState(false);
+    const [file, setFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+    const [analyzing, setAnalyzing] = useState(false);
+    const [currentStage, setCurrentStage] = useState(0);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+    const inputRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
+    const { token } = useAuth();
+
+    const handleDrag = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.type === "dragenter" || e.type === "dragover") {
+            setDragActive(true);
+        } else if (e.type === "dragleave") {
+            setDragActive(false);
+        }
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        if (e.target.files && e.target.files[0]) {
+            handleFile(e.target.files[0]);
+        }
+    };
+
+    const handleFile = (newFile: File) => {
+        const validTypes = ['image/png', 'image/jpeg', 'image/tiff', 'image/bmp', 'image/webp', 'image/gif'];
+        if (validTypes.includes(newFile.type)) {
+            setFile(newFile);
+            setPreviewUrl(URL.createObjectURL(newFile));
+        } else {
+            alert('Please upload a valid image file (PNG, JPEG, TIFF, BMP, WebP, GIF)');
+        }
+    };
+
+    const clearFile = () => {
+        setFile(null);
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
+    };
+
+    const startAnalysis = async () => {
+        if (!file) return;
+        setAnalyzing(true);
+        setCurrentStage(0);
+        setErrorMsg(null);
+
+        // Advance stages visually while the API request processes
+        const interval = setInterval(() => {
+            setCurrentStage(prev => {
+                // Don't advance past 'Insights Diagram' (index 3) until API completes
+                if (prev < STAGES.length - 2) return prev + 1;
+                return prev;
+            });
+        }, 1500);
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const res = await fetch('http://localhost:3001/api/analyze', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            const result = await res.json();
+            clearInterval(interval);
+
+            if (result.success && result.data?.id) {
+                setCurrentStage(STAGES.length);
+                setTimeout(() => {
+                    navigate(`/results/${result.data.id}`);
+                }, 800);
+            } else {
+                setErrorMsg(result.error || 'Unknown error');
+                setAnalyzing(false);
+            }
+        } catch (error) {
+            clearInterval(interval);
+            console.error('Upload failed', error);
+            setErrorMsg('Upload failed. Is the server running?');
+            setAnalyzing(false);
+        }
+    };
+
+    return (
+        <div className="animate-in fade-in duration-500 max-w-4xl mx-auto h-full flex flex-col">
+            <div className="mb-8">
+                <h2 className="text-3xl font-bold text-white tracking-tight">New Analysis</h2>
+                <p className="text-gray-400 mt-2">Upload an image to run through the AI vision pipeline.</p>
+                {errorMsg && (
+                    <div className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl shadow-lg flex items-center gap-3">
+                        <X className="w-5 h-5 text-red-500 shrink-0" />
+                        <span className="text-red-400 text-sm font-medium">{errorMsg}</span>
+                    </div>
+                )}
+            </div>
+
+            <div className="flex-1 flex flex-col items-center justify-center">
+                {!file ? (
+                    <div
+                        className={cn(
+                            "w-full max-w-2xl aspect-video rounded-3xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center p-12 text-center cursor-pointer",
+                            dragActive
+                                ? "border-brand-cyan bg-brand-cyan/10 scale-[1.02]"
+                                : "border-gray-600 bg-white/5 hover:bg-white/10 hover:border-gray-500"
+                        )}
+                        onDragEnter={handleDrag}
+                        onDragLeave={handleDrag}
+                        onDragOver={handleDrag}
+                        onDrop={handleDrop}
+                        onClick={() => inputRef.current?.click()}
+                    >
+                        <input
+                            ref={inputRef}
+                            type="file"
+                            className="hidden"
+                            accept=".png,.jpg,.jpeg,.tiff,.bmp,.webp,.gif"
+                            onChange={handleChange}
+                        />
+                        <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6 shadow-2xl">
+                            <UploadCloud className={cn("w-10 h-10 transition-colors", dragActive ? "text-brand-cyan" : "text-gray-400")} />
+                        </div>
+                        <h3 className="text-xl font-semibold text-white mb-2">Drag & drop your image here</h3>
+                        <p className="text-gray-400 mb-6">or click to browse from your computer</p>
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <span className="px-2 py-1 rounded bg-white/5">PNG</span>
+                            <span className="px-2 py-1 rounded bg-white/5">JPEG</span>
+                            <span className="px-2 py-1 rounded bg-white/5">TIFF</span>
+                            <span className="px-2 py-1 rounded bg-white/5">BMP</span>
+                            <span className="px-2 py-1 rounded bg-white/5">WebP</span>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        {/* Image Preview Panel */}
+                        <div className="glass-panel p-2 pb-6 flex flex-col relative group overflow-hidden">
+                            <div className="w-full aspect-square rounded-xl overflow-hidden bg-black/40 mb-4 relative">
+                                <img src={previewUrl!} alt="Preview" className="w-full h-full object-contain" />
+
+                                {/* Scanning overlay effect when analyzing */}
+                                {analyzing && (
+                                    <div className="absolute inset-0 pointer-events-none">
+                                        <div className="w-full h-1 bg-brand-cyan blur-[2px] shadow-[0_0_15px_rgba(6,182,212,1)] animate-[scan_2s_ease-in-out_infinite]" />
+                                        <div className="absolute inset-0 bg-brand-indigo/10 animate-pulse" />
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="px-4 flex items-start justify-between">
+                                <div className="flex items-center gap-3 overflow-hidden">
+                                    <FileImage className="w-8 h-8 text-brand-cyan shrink-0" />
+                                    <div className="min-w-0">
+                                        <p className="text-sm font-medium text-white truncate w-48">{file.name}</p>
+                                        <p className="text-xs text-gray-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                                    </div>
+                                </div>
+                                {!analyzing && (
+                                    <button
+                                        onClick={clearFile}
+                                        className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+                                        title="Remove Image"
+                                    >
+                                        <X className="w-5 h-5" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Analysis Controls Panel */}
+                        <div className="glass-panel p-8 h-full flex flex-col justify-center">
+                            {!analyzing ? (
+                                <div className="flex flex-col items-center text-center">
+                                    <div className="w-16 h-16 rounded-full bg-brand-purple/20 flex items-center justify-center mb-6">
+                                        <Sparkles className="w-8 h-8 text-brand-purple" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-white mb-2">Ready for Analysis</h3>
+                                    <p className="text-gray-400 mb-8">
+                                        Our AI will process this image to detect objects, measure sizes, and extract scientific insights.
+                                    </p>
+                                    <button
+                                        onClick={startAnalysis}
+                                        className="w-full py-4 text-lg font-bold text-white bg-gradient-to-r from-brand-indigo via-brand-cyan to-brand-purple rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
+                                    >
+                                        <span className="relative z-10 flex items-center justify-center gap-2">
+                                            <Sparkles className="w-5 h-5" />
+                                            Analyze with AI
+                                        </span>
+                                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col h-full justify-center">
+                                    <h3 className="text-xl font-bold text-white mb-8 text-center flex items-center justify-center gap-3">
+                                        <Loader2 className="w-6 h-6 animate-spin text-brand-cyan" />
+                                        Processing Pipeline
+                                    </h3>
+
+                                    <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
+                                        {STAGES.map((stage, idx) => {
+                                            const isComplete = idx < currentStage;
+                                            const isCurrent = idx === currentStage;
+                                            const isPending = idx > currentStage;
+
+                                            return (
+                                                <div key={stage} className={cn("relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group transition-all duration-500", isPending ? "opacity-40" : "opacity-100")}>
+                                                    <div className={cn(
+                                                        "flex items-center justify-center w-10 h-10 rounded-full border-2 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow shadow-black/20 z-10 transition-colors duration-300",
+                                                        isComplete ? "bg-brand-indigo border-brand-indigo" :
+                                                            isCurrent ? "bg-brand-cyan/20 border-brand-cyan" :
+                                                                "bg-gray-800 border-gray-600"
+                                                    )}>
+                                                        {isComplete ? (
+                                                            <CheckCircle2 className="w-5 h-5 text-white" />
+                                                        ) : isCurrent ? (
+                                                            <Loader2 className="w-5 h-5 text-brand-cyan animate-spin" />
+                                                        ) : (
+                                                            <span className="text-sm font-medium text-gray-400">{idx + 1}</span>
+                                                        )}
+                                                    </div>
+
+                                                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] glass-panel-subtle p-4 !border-white/5 flex flex-col">
+                                                        <h4 className={cn("font-semibold text-sm", isCurrent ? "text-brand-cyan" : "text-gray-200")}>{stage}</h4>
+                                                        {isCurrent && <p className="text-xs text-brand-cyan/70 mt-1 animate-pulse">Processing...</p>}
+                                                        {isComplete && <p className="text-xs text-gray-500 mt-1">Completed</p>}
+                                                        {isPending && <p className="text-xs text-gray-600 mt-1">Pending</p>}
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
