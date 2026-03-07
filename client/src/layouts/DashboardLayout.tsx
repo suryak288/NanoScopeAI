@@ -28,7 +28,7 @@ export function DashboardLayout() {
                             </div>
                             {/* Detailed Profile Dropdown */}
                             <div className="absolute right-0 top-full mt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
-                                <div className="glass-panel p-1 border border-brand-cyan/20 shadow-2xl rounded-xl flex flex-col">
+                                <div className="bg-[#0f0c29] p-1 border border-brand-cyan/20 shadow-2xl rounded-xl flex flex-col">
                                     <div className="px-4 py-3 border-b border-white/10">
                                         <p className="text-sm font-semibold text-white truncate">{user?.email || 'Guest User'}</p>
                                         <p className="text-xs text-gray-400 mt-1">Joined: <span className="text-brand-cyan px-1 py-0.5 rounded bg-white/5">{new Date().toLocaleDateString()}</span></p>
