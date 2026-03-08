@@ -19,10 +19,10 @@ export function Sidebar() {
         <div className="flex flex-col shrink-0 gap-y-5 overflow-y-auto glass-panel-subtle px-6 pb-4 w-64 border-r-0 rounded-none rounded-r-2xl m-4 mr-0">
             <div className="flex h-16 shrink-0 items-center justify-center pt-8 pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-indigo to-brand-cyan flex items-center justify-center p-1">
+                    <div className="h-8 w-8 rounded-lg bg-indigo-500 flex items-center justify-center p-1">
                         <Microscope className="h-5 w-5 text-white" />
                     </div>
-                    <span className="text-xl font-bold tracking-tight text-white">NanoScope<span className="text-brand-cyan">AI</span></span>
+                    <span className="text-xl font-bold tracking-tight text-zinc-100">NanoScope<span className="text-indigo-400">AI</span></span>
                 </div>
             </div>
             <nav className="flex flex-1 flex-col mt-8">
@@ -38,14 +38,14 @@ export function Sidebar() {
                                             to={item.href}
                                             className={cn(
                                                 isActive
-                                                    ? 'bg-gradient-to-r from-white/10 to-transparent text-white border-l-[3px] border-brand-cyan shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]'
-                                                    : 'text-gray-400 hover:text-white hover:bg-white/5 border-l-[3px] border-transparent hover:translate-x-1',
+                                                    ? 'bg-indigo-500/10 text-indigo-400 border-l-[3px] border-indigo-500 shadow-sm'
+                                                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 border-l-[3px] border-transparent hover:translate-x-1',
                                                 'group flex items-center gap-x-3 rounded-r-lg p-2.5 text-sm leading-6 font-medium transition-all duration-300 ease-out'
                                             )}
                                         >
                                             <item.icon
                                                 className={cn(
-                                                    isActive ? 'text-brand-cyan' : 'text-gray-400 group-hover:text-white',
+                                                    isActive ? 'text-indigo-400' : 'text-zinc-500 group-hover:text-zinc-300',
                                                     'h-5 w-5 shrink-0 transition-colors duration-200'
                                                 )}
                                                 aria-hidden="true"

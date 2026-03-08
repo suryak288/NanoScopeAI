@@ -131,10 +131,10 @@ export default function Analysis() {
                 {!file ? (
                     <div
                         className={cn(
-                            "w-full max-w-2xl aspect-video rounded-3xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center p-12 text-center cursor-pointer",
+                            "w-full max-w-2xl aspect-video rounded-3xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center p-12 text-center cursor-pointer bg-zinc-900",
                             dragActive
-                                ? "border-brand-cyan bg-brand-cyan/10 scale-[1.02]"
-                                : "border-gray-600 bg-white/5 hover:bg-white/10 hover:border-gray-500"
+                                ? "border-indigo-500 bg-indigo-500/10 scale-[1.02]"
+                                : "border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600"
                         )}
                         onDragEnter={handleDrag}
                         onDragLeave={handleDrag}
@@ -149,17 +149,17 @@ export default function Analysis() {
                             accept=".png,.jpg,.jpeg,.tiff,.bmp,.webp,.gif"
                             onChange={handleChange}
                         />
-                        <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6 shadow-2xl">
-                            <UploadCloud className={cn("w-10 h-10 transition-colors", dragActive ? "text-brand-cyan" : "text-gray-400")} />
+                        <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center mb-6 shadow-md border border-zinc-700">
+                            <UploadCloud className={cn("w-10 h-10 transition-colors", dragActive ? "text-indigo-400" : "text-zinc-500")} />
                         </div>
-                        <h3 className="text-xl font-semibold text-white mb-2">Drag & drop your image here</h3>
-                        <p className="text-gray-400 mb-6">or click to browse from your computer</p>
-                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                            <span className="px-2 py-1 rounded bg-white/5">PNG</span>
-                            <span className="px-2 py-1 rounded bg-white/5">JPEG</span>
-                            <span className="px-2 py-1 rounded bg-white/5">TIFF</span>
-                            <span className="px-2 py-1 rounded bg-white/5">BMP</span>
-                            <span className="px-2 py-1 rounded bg-white/5">WebP</span>
+                        <h3 className="text-xl font-semibold text-zinc-100 mb-2">Drag & drop your image here</h3>
+                        <p className="text-zinc-400 mb-6">or click to browse from your computer</p>
+                        <div className="flex items-center gap-2 text-xs text-zinc-400">
+                            <span className="px-2 py-1 rounded-md bg-zinc-800 border border-zinc-700">PNG</span>
+                            <span className="px-2 py-1 rounded-md bg-zinc-800 border border-zinc-700">JPEG</span>
+                            <span className="px-2 py-1 rounded-md bg-zinc-800 border border-zinc-700">TIFF</span>
+                            <span className="px-2 py-1 rounded-md bg-zinc-800 border border-zinc-700">BMP</span>
+                            <span className="px-2 py-1 rounded-md bg-zinc-800 border border-zinc-700">WebP</span>
                         </div>
                     </div>
                 ) : (
@@ -172,18 +172,18 @@ export default function Analysis() {
                                 {/* Scanning overlay effect when analyzing */}
                                 {analyzing && (
                                     <div className="absolute inset-0 pointer-events-none">
-                                        <div className="w-full h-1 bg-brand-cyan blur-[2px] shadow-[0_0_15px_rgba(6,182,212,1)] animate-[scan_2s_ease-in-out_infinite]" />
-                                        <div className="absolute inset-0 bg-brand-indigo/10 animate-pulse" />
+                                        <div className="w-full h-1 bg-indigo-400 blur-[2px] shadow-[0_0_15px_rgba(99,102,241,0.5)] animate-[scan_2s_ease-in-out_infinite]" />
+                                        <div className="absolute inset-0 bg-indigo-500/10 animate-pulse" />
                                     </div>
                                 )}
                             </div>
 
                             <div className="px-4 flex items-start justify-between">
                                 <div className="flex items-center gap-3 overflow-hidden">
-                                    <FileImage className="w-8 h-8 text-brand-cyan shrink-0" />
+                                    <FileImage className="w-8 h-8 text-indigo-400 shrink-0" />
                                     <div className="min-w-0">
-                                        <p className="text-sm font-medium text-white truncate w-48">{file.name}</p>
-                                        <p className="text-xs text-gray-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                                        <p className="text-sm font-medium text-zinc-100 truncate w-48">{file.name}</p>
+                                        <p className="text-xs text-zinc-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                                     </div>
                                 </div>
                                 {!analyzing && (
@@ -199,35 +199,35 @@ export default function Analysis() {
                         </div>
 
                         {/* Analysis Controls Panel */}
-                        <div className="glass-panel p-8 h-full flex flex-col justify-center">
+                        <div className="glass-panel p-8 h-full flex flex-col justify-center border-zinc-800 shadow-sm">
                             {!analyzing ? (
                                 <div className="flex flex-col items-center text-center">
-                                    <div className="w-16 h-16 rounded-full bg-brand-purple/20 flex items-center justify-center mb-6">
-                                        <Sparkles className="w-8 h-8 text-brand-purple" />
+                                    <div className="w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center mb-6 border border-indigo-500/20">
+                                        <Sparkles className="w-8 h-8 text-indigo-400" />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">Ready for Analysis</h3>
-                                    <p className="text-gray-400 mb-8">
+                                    <h3 className="text-2xl font-bold text-zinc-100 mb-2">Ready for Analysis</h3>
+                                    <p className="text-zinc-400 mb-8">
                                         Our AI will process this image to detect objects, measure sizes, and extract scientific insights.
                                     </p>
                                     <button
                                         onClick={startAnalysis}
-                                        className="w-full py-4 text-lg font-bold text-white bg-gradient-to-r from-brand-indigo via-brand-cyan to-brand-purple rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
+                                        className="w-full py-4 text-lg font-bold text-zinc-900 bg-white rounded-xl shadow-sm hover:bg-zinc-100 transition-all duration-300 hover:-translate-y-0.5 border border-zinc-200 group relative overflow-hidden"
                                     >
                                         <span className="relative z-10 flex items-center justify-center gap-2">
-                                            <Sparkles className="w-5 h-5" />
+                                            <Sparkles className="w-5 h-5 text-indigo-600" />
                                             Analyze with AI
                                         </span>
-                                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                                        <div className="absolute inset-0 bg-zinc-200/50 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                                     </button>
                                 </div>
                             ) : (
                                 <div className="flex flex-col h-full justify-center">
-                                    <h3 className="text-xl font-bold text-white mb-8 text-center flex items-center justify-center gap-3">
-                                        <Loader2 className="w-6 h-6 animate-spin text-brand-cyan" />
+                                    <h3 className="text-xl font-bold text-zinc-100 mb-8 text-center flex items-center justify-center gap-3">
+                                        <Loader2 className="w-6 h-6 animate-spin text-indigo-400" />
                                         Processing Pipeline
                                     </h3>
 
-                                    <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
+                                    <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-zinc-700 before:to-transparent">
                                         {STAGES.map((stage, idx) => {
                                             const isComplete = idx < currentStage;
                                             const isCurrent = idx === currentStage;
@@ -236,25 +236,25 @@ export default function Analysis() {
                                             return (
                                                 <div key={stage} className={cn("relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group transition-all duration-500", isPending ? "opacity-40" : "opacity-100")}>
                                                     <div className={cn(
-                                                        "flex items-center justify-center w-10 h-10 rounded-full border-2 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow shadow-black/20 z-10 transition-colors duration-300",
-                                                        isComplete ? "bg-brand-indigo border-brand-indigo" :
-                                                            isCurrent ? "bg-brand-cyan/20 border-brand-cyan" :
-                                                                "bg-gray-800 border-gray-600"
+                                                        "flex items-center justify-center w-10 h-10 rounded-full border-2 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm z-10 transition-colors duration-300",
+                                                        isComplete ? "bg-indigo-500 border-indigo-500" :
+                                                            isCurrent ? "bg-zinc-900 border-indigo-500" :
+                                                                "bg-zinc-900 border-zinc-700"
                                                     )}>
                                                         {isComplete ? (
                                                             <CheckCircle2 className="w-5 h-5 text-white" />
                                                         ) : isCurrent ? (
-                                                            <Loader2 className="w-5 h-5 text-brand-cyan animate-spin" />
+                                                            <Loader2 className="w-5 h-5 text-indigo-400 animate-spin" />
                                                         ) : (
-                                                            <span className="text-sm font-medium text-gray-400">{idx + 1}</span>
+                                                            <span className="text-sm font-medium text-zinc-500">{idx + 1}</span>
                                                         )}
                                                     </div>
 
-                                                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] glass-panel-subtle p-4 !border-white/5 flex flex-col">
-                                                        <h4 className={cn("font-semibold text-sm", isCurrent ? "text-brand-cyan" : "text-gray-200")}>{stage}</h4>
-                                                        {isCurrent && <p className="text-xs text-brand-cyan/70 mt-1 animate-pulse">Processing...</p>}
-                                                        {isComplete && <p className="text-xs text-gray-500 mt-1">Completed</p>}
-                                                        {isPending && <p className="text-xs text-gray-600 mt-1">Pending</p>}
+                                                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] glass-panel-subtle p-4 border border-zinc-800 flex flex-col shadow-none">
+                                                        <h4 className={cn("font-semibold text-sm", isCurrent ? "text-indigo-400" : "text-zinc-300")}>{stage}</h4>
+                                                        {isCurrent && <p className="text-xs text-indigo-400/70 mt-1 animate-pulse">Processing...</p>}
+                                                        {isComplete && <p className="text-xs text-zinc-500 mt-1">Completed</p>}
+                                                        {isPending && <p className="text-xs text-zinc-600 mt-1">Pending</p>}
                                                     </div>
                                                 </div>
                                             )

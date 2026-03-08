@@ -4,28 +4,29 @@
   --color-brand-indigo: #6366f1;
   --color-brand-cyan: #06b6d4;
   --color-brand-purple: #a855f7;
-  --color-bg-dark-1: #0f0c29;
-  --color-bg-dark-2: #1a1a2e;
-  --color-bg-dark-3: #16213e;
+  --color-bg-dark-1: #09090b;
+  /* zinc-950 */
+  --color-bg-dark-2: #09090b;
+  --color-bg-dark-3: #09090b;
 }
 
 @layer base {
   body {
-    @apply antialiased text-gray-100 min-h-screen bg-gradient-to-br from-[var(--color-bg-dark-1)] via-[var(--color-bg-dark-2)] to-[var(--color-bg-dark-3)];
+    @apply antialiased text-zinc-300 min-h-screen bg-[var(--color-bg-dark-1)];
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   }
 }
 
 @layer utilities {
   .glass-panel {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 rounded-2xl;
+    @apply bg-zinc-900/80 backdrop-blur-md border border-zinc-800 shadow-lg shadow-black/20 rounded-2xl;
   }
 
   .glass-panel-subtle {
-    @apply bg-white/5 backdrop-blur-lg border border-white/5 shadow-xl shadow-black/30 rounded-xl;
+    @apply bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 shadow-md shadow-black/10 rounded-xl;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-indigo via-brand-cyan to-brand-purple;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-zinc-200 to-zinc-400;
   }
 }

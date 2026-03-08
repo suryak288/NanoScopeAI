@@ -78,24 +78,24 @@ export default function Results() {
     return (
         <div className="animate-in fade-in duration-500 max-w-7xl mx-auto pb-10">
             {/* Success Banner */}
-            <div className="glass-panel border-green-500/30 bg-green-500/5 mb-10 p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div className="glass-panel border-emerald-500/20 bg-emerald-500/5 mb-10 p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
                 <div className="flex items-center gap-5">
-                    <CheckCircle2 className="w-12 h-12 text-green-400" />
+                    <CheckCircle2 className="w-12 h-12 text-emerald-400" />
                     <div>
                         <h2 className="text-2xl font-extrabold text-white">Analysis Complete</h2>
-                        <p className="text-green-200/80 text-base mt-1">Successfully processed "{analysis.image_name}" on {new Date(analysis.created_at).toLocaleString()}</p>
+                        <p className="text-emerald-300/80 text-base mt-1">Successfully processed "{analysis.image_name}" on {new Date(analysis.created_at).toLocaleString()}</p>
                     </div>
                 </div>
                 <div className="flex gap-3">
                     <button
                         onClick={handleExport}
                         disabled={exporting}
-                        className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors border border-white/10"
+                        className="flex items-center gap-2 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors border border-zinc-700"
                     >
                         {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
                         {exporting ? 'Exporting...' : 'Export Report'}
                     </button>
-                    <Link to="/analysis" className="flex items-center gap-2 px-4 py-2 bg-brand-cyan hover:bg-brand-cyan/80 text-gray-900 text-sm font-bold rounded-lg transition-colors shadow-lg shadow-brand-cyan/20">
+                    <Link to="/analysis" className="flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-zinc-100 text-zinc-900 text-sm font-bold rounded-lg transition-colors shadow-sm border border-zinc-200">
                         <RefreshCcw className="w-4 h-4" /> New Analysis
                     </Link>
                 </div>
@@ -114,8 +114,8 @@ export default function Results() {
                                     className={cn(
                                         "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                                         activeTab === idx
-                                            ? "bg-gradient-to-r from-brand-indigo to-brand-cyan text-white shadow-md"
-                                            : "text-gray-400 hover:text-white hover:bg-white/5"
+                                            ? "bg-zinc-800 text-zinc-100 shadow-sm border border-zinc-700"
+                                            : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50"
                                     )}
                                 >
                                     {tab}
@@ -123,7 +123,7 @@ export default function Results() {
                             ))}
                         </div>
 
-                        <div className="relative aspect-[16/10] xl:aspect-[4/3] rounded-2xl shadow-2xl overflow-hidden bg-black/50 border border-white/10 group hover:border-brand-cyan/40 transition-colors duration-500">
+                        <div className="relative aspect-[16/10] xl:aspect-[4/3] rounded-2xl shadow-xl overflow-hidden bg-zinc-950 border border-zinc-800 group hover:border-indigo-500/40 transition-colors duration-500">
                             {/* Mock Images based on active tab */}
                             {activeTab === 0 && (
                                 <img src={analysis.image_url} alt="Original" className="w-full h-full object-contain p-2" />
@@ -133,15 +133,15 @@ export default function Results() {
                                     <img src={analysis.annotated_image_url || analysis.image_url} alt="Annotated" className="max-w-full max-h-full object-contain opacity-80" />
                                     {/* Mock Annotations overlay */}
                                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxjaXJjbGUgY3g9IjMwJSIgY3k9IjQwJSIgcj0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzA2YjZkNCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNjAlIiBjeT0iMjAlIiByPSIxNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTEiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==')] bg-cover opacity-60 mix-blend-screen" />
-                                    <div className="absolute top-1/4 left-1/3 w-8 h-8 border-2 border-brand-cyan rounded-full animate-ping opacity-75"></div>
-                                    <div className="absolute bottom-1/3 right-1/4 w-12 h-12 border-2 border-brand-purple rounded-full animate-pulse opacity-75"></div>
+                                    <div className="absolute top-1/4 left-1/3 w-8 h-8 border-2 border-sky-400 rounded-full animate-ping opacity-75"></div>
+                                    <div className="absolute bottom-1/3 right-1/4 w-12 h-12 border-2 border-violet-500 rounded-full animate-pulse opacity-75"></div>
                                 </div>
                             )}
                             {activeTab === 2 && (
-                                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-indigo/20 to-brand-purple/20">
+                                <div className="w-full h-full flex items-center justify-center bg-indigo-500/5">
                                     <div className="text-center">
-                                        <Layers className="w-16 h-16 text-brand-cyan mx-auto mb-4 opacity-50" />
-                                        <p className="text-gray-300 font-medium">Insights Diagram Generated via API</p>
+                                        <Layers className="w-16 h-16 text-indigo-400 mx-auto mb-4 opacity-50" />
+                                        <p className="text-zinc-300 font-medium">Insights Diagram Generated via API</p>
                                     </div>
                                 </div>
                             )}
@@ -155,10 +155,10 @@ export default function Results() {
                     {/* Additional Notes */}
                     <div className="glass-panel p-6">
                         <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                            <Beaker className="w-5 h-5 text-brand-purple" />
+                            <Beaker className="w-5 h-5 text-indigo-400" />
                             AI Scientific Analysis Notes
                         </h3>
-                        <div className="space-y-4 text-sm text-gray-300 leading-relaxed">
+                        <div className="space-y-4 text-sm text-zinc-300 leading-relaxed">
                             <p>{analysis.analysis_notes || "Basic visual analysis completed for the provided micrograph, capturing key characteristics of the nanoscale entities."}</p>
                         </div>
                     </div>
@@ -168,33 +168,33 @@ export default function Results() {
                 <div className="w-full xl:w-[30%] flex flex-col gap-6">
                     {/* Key Metrics Grid */}
                     <div className="grid grid-cols-2 gap-5 h-full content-start">
-                        <div className="glass-panel p-6 hover:-translate-y-1 transition-transform border border-white/5 hover:border-white/10 duration-300">
-                            <div className="text-gray-400 mb-2 flex items-center gap-2">
-                                <Target className="w-5 h-5 text-brand-cyan shrink-0" />
+                        <div className="glass-panel p-6 hover:-translate-y-0.5 transition-transform border-zinc-800 hover:border-zinc-700 duration-300 shadow-none">
+                            <div className="text-zinc-500 mb-2 flex items-center gap-2">
+                                <Target className="w-5 h-5 text-sky-400 shrink-0" />
                                 <span className="text-[10px] 2xl:text-xs font-bold uppercase tracking-wider truncate">Elements</span>
                             </div>
-                            <p className="text-2xl 2xl:text-3xl font-extrabold text-white tracking-tight">{analysis.particle_count.toLocaleString()}</p>
+                            <p className="text-2xl 2xl:text-3xl font-extrabold text-zinc-100 tracking-tight">{analysis.particle_count.toLocaleString()}</p>
                         </div>
-                        <div className="glass-panel p-6 hover:-translate-y-1 transition-transform border border-white/5 hover:border-white/10 duration-300">
-                            <div className="text-gray-400 mb-2 flex items-center gap-2">
-                                <Scaling className="w-5 h-5 text-brand-indigo shrink-0" />
+                        <div className="glass-panel p-6 hover:-translate-y-0.5 transition-transform border-zinc-800 hover:border-zinc-700 duration-300 shadow-none">
+                            <div className="text-zinc-500 mb-2 flex items-center gap-2">
+                                <Scaling className="w-5 h-5 text-indigo-400 shrink-0" />
                                 <span className="text-[10px] 2xl:text-xs font-bold uppercase tracking-wider truncate">Avg Size</span>
                             </div>
-                            <p className="text-2xl 2xl:text-3xl font-extrabold text-white tracking-tight">{analysis.average_size} nm</p>
+                            <p className="text-2xl 2xl:text-3xl font-extrabold text-zinc-100 tracking-tight">{analysis.average_size} nm</p>
                         </div>
-                        <div className="glass-panel p-6 hover:-translate-y-1 transition-transform border border-white/5 hover:border-white/10 duration-300">
-                            <div className="text-gray-400 mb-2 flex items-center gap-2">
-                                <Activity className="w-5 h-5 text-brand-purple shrink-0" />
+                        <div className="glass-panel p-6 hover:-translate-y-0.5 transition-transform border-zinc-800 hover:border-zinc-700 duration-300 shadow-none">
+                            <div className="text-zinc-500 mb-2 flex items-center gap-2">
+                                <Activity className="w-5 h-5 text-violet-400 shrink-0" />
                                 <span className="text-[10px] 2xl:text-xs font-bold uppercase tracking-wider truncate">Std Dev</span>
                             </div>
-                            <p className="text-2xl 2xl:text-3xl font-extrabold text-white tracking-tight">±{analysis.standard_deviation} nm</p>
+                            <p className="text-2xl 2xl:text-3xl font-extrabold text-zinc-100 tracking-tight">±{analysis.standard_deviation} nm</p>
                         </div>
-                        <div className="glass-panel p-6 hover:-translate-y-1 transition-transform border border-white/5 hover:border-white/10 duration-300">
-                            <div className="text-gray-400 mb-2 flex items-center gap-2">
-                                <ScanFace className="w-5 h-5 text-green-400 shrink-0" />
+                        <div className="glass-panel p-6 hover:-translate-y-0.5 transition-transform border-zinc-800 hover:border-zinc-700 duration-300 shadow-none">
+                            <div className="text-zinc-500 mb-2 flex items-center gap-2">
+                                <ScanFace className="w-5 h-5 text-emerald-400 shrink-0" />
                                 <span className="text-[10px] 2xl:text-xs font-bold uppercase tracking-wider truncate">Uniformity</span>
                             </div>
-                            <p className="text-2xl 2xl:text-3xl font-extrabold text-white tracking-tight">{analysis.uniformity_index}</p>
+                            <p className="text-2xl 2xl:text-3xl font-extrabold text-zinc-100 tracking-tight">{analysis.uniformity_index}</p>
                         </div>
                     </div>
 
@@ -204,9 +204,9 @@ export default function Results() {
             {/* Bottom Section: Full Width Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
                 {/* Size Distribution Chart */}
-                <div className="glass-panel p-8">
+                <div className="glass-panel p-8 shadow-none border-zinc-800">
                     <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                        <BarChart className="w-5 h-5 text-brand-cyan" />
+                        <BarChart className="w-5 h-5 text-sky-400" />
                         Size Distribution
                     </h3>
                     <div className="h-64 w-full">
@@ -232,9 +232,9 @@ export default function Results() {
                 </div>
 
                 {/* Shape Distribution Chart */}
-                <div className="glass-panel p-8">
+                <div className="glass-panel p-8 shadow-none border-zinc-800">
                     <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                        <Shapes className="w-5 h-5 text-brand-purple" />
+                        <Shapes className="w-5 h-5 text-violet-400" />
                         Morphology Analysis
                     </h3>
                     <div className="h-64 w-full flex items-center justify-center">

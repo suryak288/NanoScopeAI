@@ -54,16 +54,16 @@ export default function Dashboard() {
             {/* Header section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                 <div>
-                    <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 tracking-tight">Dashboard Overview</h2>
-                    <p className="text-gray-400 mt-2 text-lg">Monitor your image analysis metrics and history.</p>
+                    <h2 className="text-4xl font-extrabold text-zinc-100 tracking-tight">Dashboard Overview</h2>
+                    <p className="text-zinc-400 mt-2 text-lg">Monitor your image analysis metrics and history.</p>
                     {userStatus && (
                         <div className="mt-4 flex flex-wrap items-center gap-3">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-white/10 text-white text-xs font-semibold uppercase tracking-wider border border-white/20">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 text-xs font-semibold uppercase tracking-wider border border-zinc-700">
                                 Plan: {userStatus.plan}
                             </span>
                             {userStatus.plan !== 'research' && (
-                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand-indigo/10 border border-brand-indigo/20">
-                                    <span className="text-sm font-medium text-brand-indigo">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                                    <span className="text-sm font-medium text-indigo-400">
                                         Remaining analyses: {
                                             (userStatus.plan === 'student' ? 1000 : 100) - userStatus.analysis_count
                                         } / {userStatus.plan === 'student' ? 1000 : 100}
@@ -75,7 +75,7 @@ export default function Dashboard() {
                 </div>
                 <Link
                     to="/analysis"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-brand-indigo to-brand-cyan rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] transition-all duration-300 hover:-translate-y-0.5"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-zinc-900 bg-white rounded-lg shadow-sm hover:bg-zinc-100 transition-all duration-300 hover:-translate-y-0.5"
                 >
                     <Microscope className="w-5 h-5" />
                     New Analysis
@@ -83,16 +83,16 @@ export default function Dashboard() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 {stats.map((stat) => (
-                    <div key={stat.name} className="glass-panel p-6 relative overflow-hidden group hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-cyan/20 transition-all duration-300 border border-white/5 hover:border-white/10">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300 group-hover:scale-110 transform">
-                            <stat.icon className="w-20 h-20 text-white" />
+                    <div key={stat.name} className="glass-panel p-6 relative overflow-hidden group hover:-translate-y-0.5 hover:shadow-lg hover:border-zinc-700 transition-all duration-300">
+                        <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-300 group-hover:scale-110 transform">
+                            <stat.icon className="w-24 h-24 text-zinc-100" />
                         </div>
-                        <p className="text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wide">{stat.name}</p>
+                        <p className="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-wide">{stat.name}</p>
                         <div className="flex items-baseline gap-3">
-                            <p className="text-4xl font-bold text-white tracking-tight">{stat.value}</p>
-                            <span className={stat.change.startsWith('+') ? 'text-green-400 text-sm font-semibold' : 'text-cyan-400 text-sm font-semibold'}>
+                            <p className="text-3xl font-bold text-zinc-100 tracking-tight">{stat.value}</p>
+                            <span className={stat.change.startsWith('+') ? 'text-emerald-400 text-sm font-medium' : 'text-zinc-400 text-sm font-medium'}>
                                 {stat.change}
                             </span>
                         </div>
@@ -132,25 +132,25 @@ export default function Dashboard() {
                                     </td>
                                 </tr>
                             ) : recentAnalyses.map((analysis) => (
-                                <tr key={analysis.id} onClick={() => navigate(`/results/${analysis.id}`)} className="hover:bg-white/[0.04] transition-colors cursor-pointer group">
+                                <tr key={analysis.id} onClick={() => navigate(`/results/${analysis.id}`)} className="hover:bg-zinc-800/30 transition-colors cursor-pointer group">
                                     <td className="px-6 py-5">
-                                        <div className="relative h-14 w-14 rounded-lg overflow-hidden border border-white/10 group-hover:border-brand-cyan/50 transition-colors bg-black/50">
-                                            <img src={analysis.image_url} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                                        <div className="relative h-12 w-12 rounded-md overflow-hidden border border-zinc-800 group-hover:border-indigo-500/50 transition-colors bg-zinc-950">
+                                            <img src={analysis.image_url} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-500" />
                                         </div>
                                     </td>
                                     <td className="px-6 py-5">
-                                        <div className="font-semibold text-gray-200 group-hover:text-brand-cyan transition-colors text-base">
+                                        <div className="font-semibold text-zinc-300 group-hover:text-indigo-400 transition-colors text-sm">
                                             {analysis.image_name}
                                         </div>
-                                        <div className="text-xs text-gray-500 mt-1">{analysis.status}</div>
+                                        <div className="text-xs text-zinc-500 mt-1">{analysis.status}</div>
                                     </td>
-                                    <td className="px-6 py-4 text-gray-400">{new Date(analysis.created_at).toLocaleString()}</td>
+                                    <td className="px-6 py-4 text-zinc-400 text-sm">{new Date(analysis.created_at).toLocaleString()}</td>
                                     <td className="px-6 py-4">
-                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-indigo/10 text-brand-indigo border border-brand-indigo/20">
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                                             {analysis.particle_count.toLocaleString()}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-gray-300">{analysis.average_size.toFixed(1)} nm</td>
+                                    <td className="px-6 py-4 text-zinc-300 font-medium">{analysis.average_size.toFixed(1)} nm</td>
                                 </tr>
                             ))}
                         </tbody>

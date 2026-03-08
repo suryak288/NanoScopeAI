@@ -38,12 +38,12 @@ export default function History() {
     return (
         <div className="animate-in fade-in duration-500 max-w-6xl mx-auto h-full flex flex-col">
             <div className="flex items-center gap-4 mb-8 shrink-0">
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-brand-indigo to-brand-cyan flex items-center justify-center shadow-lg">
+                <div className="h-12 w-12 rounded-xl bg-indigo-500 flex items-center justify-center shadow-md">
                     <HistoryIcon className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                    <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 tracking-tight">Analysis History</h2>
-                    <p className="text-gray-400 text-sm mt-1">Review your previously analyzed samples and reports.</p>
+                    <h2 className="text-3xl font-extrabold text-zinc-100 tracking-tight">Analysis History</h2>
+                    <p className="text-zinc-400 text-sm mt-1">Review your previously analyzed samples and reports.</p>
                 </div>
             </div>
 
@@ -68,37 +68,37 @@ export default function History() {
                                 <tr className="table table-fixed w-full">
                                     <td colSpan={5} className="px-6 py-20 text-center">
                                         <div className="flex flex-col items-center justify-center">
-                                            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/10">
-                                                <HistoryIcon className="w-8 h-8 text-gray-500" />
+                                            <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center mb-4 border border-zinc-800">
+                                                <HistoryIcon className="w-8 h-8 text-zinc-500" />
                                             </div>
-                                            <p className="text-gray-300 font-medium text-lg">No analysis history found</p>
-                                            <p className="text-gray-500 text-sm mt-1 mb-6 max-w-sm">Record your first microscopic sample through the imaging pipeline to see it appear here.</p>
-                                            <button onClick={() => navigate('/analysis')} className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors border border-white/10">
+                                            <p className="text-zinc-300 font-medium text-lg">No analysis history found</p>
+                                            <p className="text-zinc-500 text-sm mt-1 mb-6 max-w-sm">Record your first microscopic sample through the imaging pipeline to see it appear here.</p>
+                                            <button onClick={() => navigate('/analysis')} className="px-6 py-2.5 bg-white hover:bg-zinc-100 text-zinc-900 font-semibold rounded-lg shadow-sm transition-all border border-zinc-200">
                                                 Start New Analysis
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
                             ) : analyses.map((analysis) => (
-                                <tr key={analysis.id} onClick={() => navigate(`/results/${analysis.id}`)} className="table table-fixed w-full border-b border-transparent hover:border-brand-cyan/20 hover:bg-white/[0.04] transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 hover:shadow-lg relative z-0 hover:z-10">
+                                <tr key={analysis.id} onClick={() => navigate(`/results/${analysis.id}`)} className="table table-fixed w-full border-b border-transparent hover:border-indigo-500/30 hover:bg-zinc-800/30 transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 hover:shadow-lg relative z-0 hover:z-10">
                                     <td className="px-6 py-5 w-32">
-                                        <div className="relative h-14 w-14 rounded-lg overflow-hidden border border-white/10 group-hover:border-brand-cyan/50 transition-colors bg-black/50">
-                                            <img src={analysis.image_url} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                                        <div className="relative h-14 w-14 rounded-lg overflow-hidden border border-zinc-800 group-hover:border-indigo-500/50 transition-colors bg-zinc-950">
+                                            <img src={analysis.image_url} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-500" />
                                         </div>
                                     </td>
                                     <td className="px-6 py-5 w-1/3 truncate">
-                                        <div className="font-semibold text-gray-200 group-hover:text-brand-cyan transition-colors text-base truncate">
+                                        <div className="font-semibold text-zinc-200 group-hover:text-indigo-400 transition-colors text-base truncate">
                                             {analysis.image_name}
                                         </div>
-                                        <div className="text-xs text-gray-500 mt-1">{analysis.status}</div>
+                                        <div className="text-xs text-zinc-500 mt-1">{analysis.status}</div>
                                     </td>
-                                    <td className="px-6 py-4 text-gray-400 w-1/4">{new Date(analysis.created_at).toLocaleString()}</td>
+                                    <td className="px-6 py-4 text-zinc-400 w-1/4">{new Date(analysis.created_at).toLocaleString()}</td>
                                     <td className="px-6 py-4 w-1/6">
-                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-indigo/10 text-brand-indigo border border-brand-indigo/20">
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                                             {analysis.particle_count.toLocaleString()}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-gray-300 w-1/6">{analysis.average_size.toFixed(1)} nm</td>
+                                    <td className="px-6 py-4 text-zinc-300 font-medium w-1/6">{analysis.average_size.toFixed(1)} nm</td>
                                 </tr>
                             ))}
                         </tbody>
