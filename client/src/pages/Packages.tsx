@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 import { Check, Star, Shield, Zap, Loader2 } from 'lucide-react';
 import { cn } from '../utils/cn';
 
@@ -56,7 +57,7 @@ export default function Packages() {
 
     const fetchUser = async () => {
         try {
-            const res = await fetch('http://localhost:3001/api/user/me', {
+            const res = await fetch(`${API_URL}/api/user/me`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
@@ -78,7 +79,7 @@ export default function Packages() {
         if (!token) return;
         setUpgrading(planId);
         try {
-            const res = await fetch('http://localhost:3001/api/user/upgrade', {
+            const res = await fetch(`${API_URL}/api/user/upgrade`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

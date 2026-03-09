@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 import {
     CheckCircle2, Download, RefreshCcw, Maximize,
     Layers, ScanFace, Activity, Shapes, Target, Beaker, Scaling, Loader2
@@ -25,7 +26,7 @@ export default function Results() {
 
     useEffect(() => {
         if (!id || !token) return;
-        fetch(`http://localhost:3001/api/analysis/${id}`, {
+        fetch(`${API_URL}/api/analysis/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -52,7 +53,7 @@ export default function Results() {
         if (!id || !token) return;
         setExporting(true);
         try {
-            const res = await fetch(`http://localhost:3001/api/analysis/${id}/export`, {
+            const res = await fetch(`${API_URL}/api/analysis/${id}/export`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 

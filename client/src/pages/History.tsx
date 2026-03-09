@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 import { History as HistoryIcon } from 'lucide-react';
 
 interface AnalysisRecord {
@@ -22,7 +23,7 @@ export default function History() {
     useEffect(() => {
         if (!token) return;
 
-        fetch('http://localhost:3001/api/analyses', {
+        fetch(`${API_URL}/api/analyses`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(res => res.json())

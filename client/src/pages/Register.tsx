@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 import { Microscope, Mail, Lock } from 'lucide-react';
 
 export default function Register() {
@@ -24,7 +25,7 @@ export default function Register() {
         setIsLoading(true);
 
         try {
-            const res = await fetch('http://localhost:3001/api/auth/register', {
+            const res = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

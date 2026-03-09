@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 import { Microscope, Activity, Scaling, Images } from 'lucide-react';
 
 const stats = [
@@ -31,10 +32,10 @@ export default function Dashboard() {
         if (!token) return;
 
         Promise.all([
-            fetch('http://localhost:3001/api/analyses', {
+            fetch(`${API_URL}/api/analyses`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             }).then(res => res.json()),
-            fetch('http://localhost:3001/api/user/me', {
+            fetch(`${API_URL}/api/user/me`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             }).then(res => res.json())
         ])

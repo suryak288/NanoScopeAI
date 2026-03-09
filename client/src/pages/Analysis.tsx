@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UploadCloud, FileImage, X, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 import { cn } from '../utils/cn';
 
 const STAGES = [
@@ -86,7 +87,7 @@ export default function Analysis() {
             const formData = new FormData();
             formData.append('file', file);
 
-            const res = await fetch('http://localhost:3001/api/analyze', {
+            const res = await fetch(`${API_URL}/api/analyze`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
