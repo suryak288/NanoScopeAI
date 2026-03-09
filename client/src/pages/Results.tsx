@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { cn } from '../utils/cn';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 const COLORS = ['#38bdf8', '#818cf8', '#c084fc', '#e879f9'];
 
