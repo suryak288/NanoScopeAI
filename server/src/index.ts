@@ -142,7 +142,14 @@ async function build() {
             }
 
             const buffer = await data.toBuffer();
-            const result = await AIService.analyzeImage(data.filename, buffer, request.user.id);
+
+            // Extract microscopeType from multipart fields
+            let microscopeType = 'Unknown';
+            if (data.fields && data.fields.microscopeType && data.fields.microscopeType.value) {
+                microscopeType = data.fields.microscopeType.value;
+            }
+
+            const result = await AIService.analyzeImage(data.filename, buffer, request.user.id, microscopeType);
 
             return { success: true, data: result };
         } catch (error: any) {

@@ -13,6 +13,7 @@ interface AnalysisRecord {
     average_size: number;
     image_url: string;
     status: string;
+    microscopeType: string;
 }
 
 export default function History() {
@@ -57,7 +58,8 @@ export default function History() {
                                 <th scope="col" className="px-6 py-4 font-medium w-32">Image Preview</th>
                                 <th scope="col" className="px-6 py-4 font-medium w-1/3">Filename</th>
                                 <th scope="col" className="px-6 py-4 font-medium w-1/4">Analysis Date</th>
-                                <th scope="col" className="px-6 py-4 font-medium w-1/6">Detected Elements</th>
+                                <th scope="col" className="px-6 py-4 font-medium w-32">Microscope</th>
+                                <th scope="col" className="px-6 py-4 font-medium w-1/6">Elements</th>
                                 <th scope="col" className="px-6 py-4 font-medium w-1/6">Avg. Size</th>
                             </tr>
                         </thead>
@@ -95,6 +97,7 @@ export default function History() {
                                         <div className="text-xs text-zinc-500 mt-1">{analysis.status}</div>
                                     </td>
                                     <td className="px-6 py-4 text-zinc-400 w-1/4">{new Date(analysis.created_at).toLocaleString()}</td>
+                                    <td className="px-6 py-4 text-zinc-300 font-medium w-32 truncate">{analysis.microscopeType || 'Unknown'}</td>
                                     <td className="px-6 py-4 w-1/6">
                                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                                             {analysis.particle_count.toLocaleString()}

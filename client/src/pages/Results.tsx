@@ -160,6 +160,12 @@ export default function Results() {
                             <Beaker className="w-5 h-5 text-indigo-400" />
                             AI Scientific Analysis Notes
                         </h3>
+
+                        <div className="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium">
+                            <Shapes className="w-4 h-4" />
+                            Microscope Type: {analysis.microscopeType || 'Unknown'}
+                        </div>
+
                         <div className="space-y-4 text-sm text-zinc-300 leading-relaxed">
                             <p>{analysis.analysis_notes || "Basic visual analysis completed for the provided micrograph, capturing key characteristics of the nanoscale entities."}</p>
                         </div>

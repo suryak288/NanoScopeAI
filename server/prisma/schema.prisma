@@ -30,6 +30,7 @@ model Analysis {
   annotated_image_url String?
   insights_diagram_url String?
   image_type          String?
+  microscopeType      String   @default("Unknown")
   particle_count      Int
   average_size        Float
   min_size            Float

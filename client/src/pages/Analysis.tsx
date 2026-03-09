@@ -22,6 +22,7 @@ export default function Analysis() {
     const [analyzing, setAnalyzing] = useState(false);
     const [currentStage, setCurrentStage] = useState(0);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [microscopeType, setMicroscopeType] = useState<string>('Bright Field');
 
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
@@ -87,6 +88,7 @@ export default function Analysis() {
         try {
             const formData = new FormData();
             formData.append('file', file);
+            formData.append('microscopeType', microscopeType);
 
             const res = await fetch(`${API_URL}/api/analyze`, {
                 method: 'POST',
@@ -198,6 +200,28 @@ export default function Analysis() {
                                     </button>
                                 )}
                             </div>
+
+                            {!analyzing && (
+                                <div className="px-4 mt-6">
+                                    <label htmlFor="microscopeType" className="block text-sm font-medium text-zinc-300 mb-2">Microscope Type</label>
+                                    <select
+                                        id="microscopeType"
+                                        value={microscopeType}
+                                        onChange={(e) => setMicroscopeType(e.target.value)}
+                                        className="w-full bg-zinc-900 border border-zinc-700 text-zinc-100 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 appearance-none"
+                                    >
+                                        <option value="Bright Field">Bright Field</option>
+                                        <option value="Dark Field">Dark Field</option>
+                                        <option value="Phase Contrast">Phase Contrast</option>
+                                        <option value="Fluorescence">Fluorescence</option>
+                                        <option value="Confocal">Confocal</option>
+                                        <option value="SEM (Scanning Electron Microscope)">SEM (Scanning Electron Microscope)</option>
+                                        <option value="TEM (Transmission Electron Microscope)">TEM (Transmission Electron Microscope)</option>
+                                        <option value="AFM (Atomic Force Microscope)">AFM (Atomic Force Microscope)</option>
+                                        <option value="STM (Scanning Tunneling Microscope)">STM (Scanning Tunneling Microscope)</option>
+                                    </select>
+                                </div>
+                            )}
                         </div>
 
                         {/* Analysis Controls Panel */}

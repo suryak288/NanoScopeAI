@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 // Simulated AI Image Analysis Service
 export class AIService {
-    static async analyzeImage(filename: string, fileBuffer: Buffer, userId: string) {
+    static async analyzeImage(filename: string, fileBuffer: Buffer, userId: string, microscopeType: string = "Unknown") {
         const user = await prisma.user.findUnique({ where: { id: userId } });
         if (!user) throw new Error("User not found");
 
@@ -76,6 +76,7 @@ export class AIService {
                     uniformity_index: parseFloat((Math.random() * 0.5 + 0.5).toFixed(2)),
                     size_distribution,
                     shape_distribution,
+                    microscopeType,
                     analysis_notes: `Automated AI analysis completed. Detected high density of elements with predominantly spherical morphology. Average size is ${avgSize} nm.`,
                     status: 'COMPLETED',
                     user_id: userId
