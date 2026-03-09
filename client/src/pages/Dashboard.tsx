@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { API_URL } from '../config/api';
 import { Microscope, Activity, Scaling, Images } from 'lucide-react';
+import { getImageUrl } from '../utils/getImageUrl';
 
 const stats = [
     { name: 'Total Analyses', value: '1,429', change: '+12%', icon: Images },
@@ -136,7 +137,7 @@ export default function Dashboard() {
                                 <tr key={analysis.id} onClick={() => navigate(`/results/${analysis.id}`)} className="hover:bg-zinc-800/30 transition-colors cursor-pointer group">
                                     <td className="px-6 py-5">
                                         <div className="relative h-12 w-12 rounded-md overflow-hidden border border-zinc-800 group-hover:border-indigo-500/50 transition-colors bg-zinc-950">
-                                            <img src={analysis.image_url} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-500" />
+                                            <img src={getImageUrl(analysis.image_url)} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-500" />
                                         </div>
                                     </td>
                                     <td className="px-6 py-5">

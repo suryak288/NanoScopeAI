@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { API_URL } from '../config/api';
 import { History as HistoryIcon } from 'lucide-react';
+import { getImageUrl } from '../utils/getImageUrl';
 
 interface AnalysisRecord {
     id: string;
@@ -84,7 +85,7 @@ export default function History() {
                                 <tr key={analysis.id} onClick={() => navigate(`/results/${analysis.id}`)} className="table table-fixed w-full border-b border-transparent hover:border-indigo-500/30 hover:bg-zinc-800/30 transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 hover:shadow-lg relative z-0 hover:z-10">
                                     <td className="px-6 py-5 w-32">
                                         <div className="relative h-14 w-14 rounded-lg overflow-hidden border border-zinc-800 group-hover:border-indigo-500/50 transition-colors bg-zinc-950">
-                                            <img src={analysis.image_url} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-500" />
+                                            <img src={getImageUrl(analysis.image_url)} alt="" className="object-cover w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-500" />
                                         </div>
                                     </td>
                                     <td className="px-6 py-5 w-1/3 truncate">
