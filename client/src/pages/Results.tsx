@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { API_URL } from '../config/api';
 import {
     CheckCircle2, Download, RefreshCcw, Maximize,
     Layers, ScanFace, Activity, Shapes, Target, Beaker, Scaling, Loader2
@@ -11,7 +10,8 @@ import {
     PieChart, Pie, Cell
 } from 'recharts';
 import { cn } from '../utils/cn';
-import { getImageUrl } from '../utils/getImageUrl';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const COLORS = ['#38bdf8', '#818cf8', '#c084fc', '#e879f9'];
 
@@ -128,11 +128,11 @@ export default function Results() {
                         <div className="relative aspect-[16/10] xl:aspect-[4/3] rounded-2xl shadow-xl overflow-hidden bg-zinc-950 border border-zinc-800 group hover:border-indigo-500/40 transition-colors duration-500">
                             {/* Mock Images based on active tab */}
                             {activeTab === 0 && (
-                                <img src={getImageUrl(analysis.image_url)} alt="Original" className="w-full h-full object-contain p-2" />
+                                <img src={`${API_URL}/uploads/${(analysis.image_url || '').split('/').pop()}`} alt="analysis preview" className="w-full h-full object-contain p-2" />
                             )}
                             {activeTab === 1 && (
                                 <div className="relative w-full h-full flex items-center justify-center p-2">
-                                    <img src={getImageUrl(analysis.annotated_image_url || analysis.image_url)} alt="Annotated" className="max-w-full max-h-full object-contain opacity-80" />
+                                    <img src={`${API_URL}/uploads/${(analysis.annotated_image_url || analysis.image_url || '').split('/').pop()}`} alt="analysis preview" className="max-w-full max-h-full object-contain opacity-80" />
                                     {/* Mock Annotations overlay */}
                                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxjaXJjbGUgY3g9IjMwJSIgY3k9IjQwJSIgcj0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzA2YjZkNCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNjAlIiBjeT0iMjAlIiByPSIxNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTEiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==')] bg-cover opacity-60 mix-blend-screen" />
                                     <div className="absolute top-1/4 left-1/3 w-8 h-8 border-2 border-sky-400 rounded-full animate-ping opacity-75"></div>

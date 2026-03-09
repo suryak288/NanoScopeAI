@@ -2,8 +2,9 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UploadCloud, FileImage, X, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { API_URL } from '../config/api';
 import { cn } from '../utils/cn';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const STAGES = [
     'Image Upload',
