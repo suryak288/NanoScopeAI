@@ -80,10 +80,19 @@ export class PDFService {
                     doc.moveDown(0.5);
 
                     try {
-                        const response = await fetch(imageUrl);
-                        if (!response.ok) throw new Error('Failed to fetch image');
-                        const arrayBuffer = await response.arrayBuffer();
-                        const buffer = Buffer.from(arrayBuffer);
+                        let buffer: Buffer;
+
+                        if (imageUrl.startsWith('/uploads/')) {
+                            // Read from local filesystem
+                            const localPath = path.join(process.cwd(), imageUrl);
+                            buffer = fs.readFileSync(localPath);
+                        } else {
+                            // Fetch from external URL (legacy Cloudinary images)
+                            const response = await fetch(imageUrl);
+                            if (!response.ok) throw new Error('Failed to fetch image');
+                            const arrayBuffer = await response.arrayBuffer();
+                            buffer = Buffer.from(arrayBuffer);
+                        }
 
                         doc.image(buffer, {
                             fit: [450, 400],
