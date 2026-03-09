@@ -4,7 +4,7 @@ import fs from 'fs';
 
 export class PDFService {
     static generateAnalysisReport(analysis: any): Promise<Buffer> {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 const doc = new PDFDocument({ margin: 50, size: 'A4' });
                 const buffers: Buffer[] = [];
@@ -75,40 +75,34 @@ export class PDFService {
                     .text('Visualizations');
                 doc.moveDown(1);
 
-                const renderImage = (title: string, imageUrl: string) => {
+                const renderImage = async (title: string, imageUrl: string) => {
                     doc.fontSize(14).font('Helvetica-Bold').fillColor('#374151').text(title);
                     doc.moveDown(0.5);
 
                     try {
-                        // Extract filename from the localhost URL
-                        const filenameStr = imageUrl.split('/').pop();
-                        if (filenameStr) {
-                            const filename = decodeURIComponent(filenameStr);
-                            const imagePath = path.join(process.cwd(), 'uploads', filename);
-                            if (fs.existsSync(imagePath)) {
-                                doc.image(imagePath, {
-                                    fit: [450, 400],
-                                    align: 'center',
-                                    valign: 'center'
-                                });
-                                // Add vertical space according to image height manually or constant block
-                                doc.moveDown(15);
-                            } else {
-                                doc.fontSize(10).font('Helvetica-Oblique').fillColor('red').text('(Image file not found on server)');
-                                doc.moveDown(2);
-                            }
-                        }
+                        const response = await fetch(imageUrl);
+                        if (!response.ok) throw new Error('Failed to fetch image');
+                        const arrayBuffer = await response.arrayBuffer();
+                        const buffer = Buffer.from(arrayBuffer);
+
+                        doc.image(buffer, {
+                            fit: [450, 400],
+                            align: 'center',
+                            valign: 'center'
+                        });
+                        // Add vertical space according to image height manually or constant block
+                        doc.moveDown(15);
                     } catch (e) {
                         doc.fontSize(10).font('Helvetica-Oblique').fillColor('red').text('(Failed to load image)');
                         doc.moveDown(2);
                     }
                 };
 
-                renderImage('Original Image', analysis.image_url);
+                await renderImage('Original Image', analysis.image_url);
                 doc.moveDown(2);
-                renderImage('AI Annotated Image', analysis.annotated_image_url);
+                await renderImage('AI Annotated Image', analysis.annotated_image_url);
                 doc.moveDown(2);
-                renderImage('Insights Diagram', analysis.insights_diagram_url);
+                await renderImage('Insights Diagram', analysis.insights_diagram_url);
 
                 doc.end();
             } catch (error) {

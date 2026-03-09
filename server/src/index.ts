@@ -6,9 +6,9 @@ import { AIService } from './services/ai.service';
 import { AuthService } from './services/auth.service';
 import { PDFService } from './services/pdf.service';
 import { PrismaClient } from '@prisma/client';
-import fastifyStatic from '@fastify/static';
 import path from 'path';
 import fs from 'fs';
+import fastifyStatic from '@fastify/static';
 
 const prisma = new PrismaClient();
 const server: FastifyInstance = Fastify({ logger: true });
@@ -107,24 +107,19 @@ async function build() {
 
             const buffer = await data.toBuffer();
 
-            // Save the file physically to the uploads directory
-            const uploadsDir = path.join(process.cwd(), 'uploads');
-            if (!fs.existsSync(uploadsDir)) {
-                fs.mkdirSync(uploadsDir, { recursive: true });
+            // Save file locally
+            const safeFilename = `${Date.now()}_${data.filename.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+            const uploadDir = path.join(process.cwd(), 'uploads');
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
             }
-
-            const safeFilename = data.filename.replace(/[^a-zA-Z0-9.-]/g, '_');
-            const uniquePrefix = Date.now().toString();
-            const uniqueFilename = `${uniquePrefix}_${safeFilename}`;
-
-            const filePath = path.join(uploadsDir, uniqueFilename);
-            fs.writeFileSync(filePath, buffer);
+            fs.writeFileSync(path.join(uploadDir, safeFilename), buffer);
 
             return {
                 success: true,
                 data: {
-                    file_name: uniqueFilename,
-                    url: `http://localhost:3001/uploads/${uniqueFilename}`
+                    file_name: safeFilename,
+                    url: `/uploads/${safeFilename}`
                 }
             };
         } catch (error) {

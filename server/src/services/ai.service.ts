@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
 
 const prisma = new PrismaClient();
 
@@ -19,22 +19,14 @@ export class AIService {
             throw new Error(`Your ${user.plan} plan has reached its limit of ${limit} analyses. Please upgrade your plan.`);
         }
 
-        // Stage 1: Upload
-        const uploadsDir = path.join(process.cwd(), 'uploads');
-        if (!fs.existsSync(uploadsDir)) {
-            fs.mkdirSync(uploadsDir, { recursive: true });
+        // Stage 1: Save to local uploads folder
+        const safeFilename = `${Date.now()}_${filename.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const uploadDir = path.join(process.cwd(), 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
         }
-
-        const safeFilename = filename.replace(/[^a-zA-Z0-9.-]/g, '_');
-        const uniquePrefix = Date.now().toString();
-
-        const uniqueFilename = `${uniquePrefix}_${safeFilename}`;
-
-        // Save the file physically to the uploads directory
-        const filePath = path.join(uploadsDir, uniqueFilename);
-        fs.writeFileSync(filePath, fileBuffer);
-
-        const mockImageUrl = `http://localhost:3001/uploads/${uniqueFilename}`;
+        fs.writeFileSync(path.join(uploadDir, safeFilename), fileBuffer);
+        const mockImageUrl = `/uploads/${safeFilename}`;
 
         // Simulate processing time
         await new Promise(resolve => setTimeout(resolve, 1500));
