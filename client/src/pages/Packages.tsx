@@ -73,6 +73,7 @@ export default function Packages() {
 
     useEffect(() => {
         if (token) fetchUser();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     const handleUpgrade = async (planId: string) => {

@@ -25,7 +25,7 @@ interface AnalysisRecord {
 
 export default function Dashboard() {
     const [recentAnalyses, setRecentAnalyses] = useState<AnalysisRecord[]>([]);
-    const [userStatus, setUserStatus] = useState<any>(null);
+    const [userStatus, setUserStatus] = useState<{ plan: string, analysis_count: number } | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const { token } = useAuth();

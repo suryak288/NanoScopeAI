@@ -32,8 +32,12 @@ export default function Login() {
 
             login(data.token, data.user);
             navigate('/dashboard');
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError(String(err));
+            }
         } finally {
             setIsLoading(false);
         }

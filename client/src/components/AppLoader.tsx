@@ -16,6 +16,7 @@ export default function AppLoader({ children }: { children: React.ReactNode }) {
             }
         }
         check();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!ready) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -224,7 +225,8 @@ export default function Results() {
                                 <XAxis dataKey="range" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: 'rgba(15, 12, 41, 0.95)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', padding: '12px' }}
+                                    cursor={{ fill: 'transparent' }}
+                                    contentStyle={{ backgroundColor: 'rgba(74, 35, 90, 0.95)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', padding: '12px' }}
                                     itemStyle={{ color: '#fff' }}
                                 />
                                 <Bar dataKey="count" fill="url(#colorUv)" radius={[6, 6, 0, 0]} />
@@ -263,7 +265,7 @@ export default function Results() {
                                     ))}
                                 </Pie>
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: 'rgba(15, 12, 41, 0.95)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', padding: '12px' }}
+                                    contentStyle={{ backgroundColor: 'rgba(74, 35, 90, 0.95)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', padding: '12px' }}
                                     itemStyle={{ color: '#fff' }}
                                 />
                             </PieChart>
