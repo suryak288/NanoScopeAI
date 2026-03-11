@@ -1,29 +1,41 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-indigo: #6366f1;
-  --color-brand-cyan: #06b6d4;
-  --color-brand-purple: #a855f7;
-  --color-bg-dark-1: #09090b;
-  /* zinc-950 */
-  --color-bg-dark-2: #09090b;
-  --color-bg-dark-3: #09090b;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-metric-number: #ffffff;
+  --color-button-primary: #2aa6a4;
+  --color-button-hover: #1e8f8d;
 }
 
 @layer base {
   body {
-    @apply antialiased text-zinc-300 min-h-screen bg-[var(--color-bg-dark-1)];
+    background: linear-gradient(135deg, #0f6a73, #7fbfc3);
+    color: var(--color-text-primary);
+    min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer utilities {
   .glass-panel {
-    @apply bg-zinc-900/80 backdrop-blur-md border border-zinc-800 shadow-lg shadow-black/20 rounded-2xl;
+    background-color: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
   }
 
-  .glass-panel-subtle {
-    @apply bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 shadow-md shadow-black/10 rounded-xl;
+  .glass-panel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
   }
 
   .text-gradient {
