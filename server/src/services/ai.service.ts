@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs';
-
-const prisma = new PrismaClient();
+import { prisma } from '../lib/prisma';
 
 // Simulated AI Image Analysis Service
 export class AIService {
@@ -25,7 +23,7 @@ export class AIService {
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
         }
-        fs.writeFileSync(path.join(uploadDir, safeFilename), fileBuffer);
+        await fs.promises.writeFile(path.join(uploadDir, safeFilename), fileBuffer);
         const mockImageUrl = `/uploads/${safeFilename}`;
 
         // Simulate processing time

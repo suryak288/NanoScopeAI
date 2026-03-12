@@ -115,7 +115,7 @@ export default function Packages() {
         <div className="animate-in fade-in duration-500 max-w-6xl mx-auto pb-10">
             <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-white tracking-tight mb-4">Choose Your Plan</h2>
-                <p className="text-gray-400 max-w-2xl mx-auto">
+                <p className="text-emerald-50 font-medium drop-shadow-sm max-w-2xl mx-auto">
                     Select the package that best fits your scientific analysis workflow. Upgrade at any time.
                 </p>
             </div>
@@ -128,31 +128,31 @@ export default function Packages() {
                             key={plan.id}
                             className={cn(
                                 "glass-panel flex flex-col relative transition-all duration-300 border",
-                                isCurrent ? "border-brand-cyan shadow-[0_0_30px_rgba(6,182,212,0.2)] scale-105 z-10" : "border-white/5 hover:border-white/20 hover:-translate-y-2 hover:shadow-2xl hover:shadow-brand-indigo/10"
+                                isCurrent ? "border-white/50 shadow-[0_0_30px_rgba(255,255,255,0.2)] scale-105 z-10" : "border-white/10 hover:border-white/30 hover:-translate-y-2 hover:shadow-2xl"
                             )}
                         >
                             {isCurrent && (
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-brand-indigo to-brand-cyan px-4 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider shadow-lg">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider shadow-lg border border-white/30">
                                     Current Plan
                                 </div>
                             )}
 
                             <div className="p-8 pb-0">
-                                <div className={cn("w-14 h-14 rounded-xl flex items-center justify-center mb-6", isCurrent ? "bg-brand-cyan/10" : "bg-white/5")}>
-                                    <plan.icon className={cn("w-7 h-7", isCurrent ? "text-brand-cyan" : "text-gray-400")} />
+                                <div className={cn("w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-inner border border-white/10", isCurrent ? "bg-white/20" : "bg-white/5")}>
+                                    <plan.icon className={cn("w-7 h-7", isCurrent ? "text-white drop-shadow-md" : "text-white/60")} />
                                 </div>
                                 <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
                                 <div className="flex items-baseline gap-2 mb-2">
                                     <span className="text-4xl font-extrabold text-white">{plan.price}</span>
                                 </div>
-                                <p className="text-sm font-medium text-brand-purple mb-6">{plan.limitText}</p>
+                                <p className="text-sm font-semibold text-emerald-100 mb-6">{plan.limitText}</p>
                             </div>
 
                             <div className="p-8 pt-0 flex flex-col flex-1">
                                 <ul className="space-y-4 mb-8 flex-1">
                                     {plan.features.map((feature, idx) => (
-                                        <li key={idx} className="flex items-start gap-3 text-sm text-gray-300">
-                                            <Check className="w-5 h-5 text-green-400 shrink-0" />
+                                        <li key={idx} className="flex items-start gap-3 text-sm text-white/90 font-medium">
+                                            <Check className="w-5 h-5 text-emerald-400 shrink-0 drop-shadow-sm" />
                                             <span>{feature}</span>
                                         </li>
                                     ))}
@@ -164,9 +164,9 @@ export default function Packages() {
                                     className={cn(
                                         "w-full py-4 px-4 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2",
                                         isCurrent
-                                            ? "bg-white/5 text-gray-500 cursor-not-allowed border border-white/10"
-                                            : "bg-white text-gray-900 hover:bg-gray-100 shadow-xl hover:scale-[1.02]",
-                                        plan.id === 'research' && !isCurrent ? "bg-gradient-to-r from-brand-indigo to-brand-cyan text-white border-0 hover:shadow-[0_0_30px_rgba(99,102,241,0.5)]" : ""
+                                            ? "bg-white/10 text-white/50 cursor-not-allowed border border-white/20 box-border"
+                                            : "bg-white text-emerald-900 hover:bg-emerald-50 shadow-xl hover:scale-[1.02]",
+                                        plan.id === 'research' && !isCurrent ? "bg-[var(--color-button-primary)] text-white border border-white/30 hover:bg-[var(--color-button-hover)] shadow-lg hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]" : ""
                                     )}
                                 >
                                     {upgrading === plan.id ? (

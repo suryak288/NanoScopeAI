@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient();
+import { prisma } from '../lib/prisma';
 
 export class AuthService {
     static async register(email: string, passwordRaw: string) {
