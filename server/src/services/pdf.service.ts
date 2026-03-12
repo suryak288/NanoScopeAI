@@ -83,9 +83,10 @@ export class PDFService {
                         let buffer: Buffer;
 
                         if (imageUrl.startsWith('/uploads/')) {
-                            // Read from local filesystem
-                            const localPath = path.join(process.cwd(), imageUrl);
-                            buffer = fs.readFileSync(localPath);
+                            // Read from local filesystem (store only relative URLs like /uploads/<name>)
+                            const filename = path.basename(imageUrl);
+                            const localPath = path.join(process.cwd(), 'uploads', filename);
+                            buffer = await fs.promises.readFile(localPath);
                         } else {
                             // Fetch from external URL (legacy Cloudinary images)
                             const response = await fetch(imageUrl);

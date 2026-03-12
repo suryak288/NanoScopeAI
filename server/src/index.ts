@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Fastify, { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import cors from '@fastify/cors';
 import multipart from '@fastify/multipart';
@@ -5,12 +6,11 @@ import jwt from '@fastify/jwt';
 import { AIService } from './services/ai.service';
 import { AuthService } from './services/auth.service';
 import { PDFService } from './services/pdf.service';
-import { PrismaClient } from '@prisma/client';
 import path from 'path';
 import fs from 'fs';
 import fastifyStatic from '@fastify/static';
+import { prisma } from './lib/prisma';
 
-const prisma = new PrismaClient();
 const server: FastifyInstance = Fastify({ logger: true });
 
 async function build() {
@@ -29,15 +29,20 @@ async function build() {
         }
     });
 
+    if (!process.env.JWT_SECRET) {
+        // Fail fast: never run with an insecure default secret.
+        throw new Error('Missing required environment variable: JWT_SECRET');
+    }
+
     await server.register(jwt, {
-        secret: process.env.JWT_SECRET || 'supersecret_nanoscope_key'
+        secret: process.env.JWT_SECRET
     });
 
     server.decorate("authenticate", async function (request: FastifyRequest, reply: FastifyReply) {
         try {
             await request.jwtVerify();
         } catch (err) {
-            reply.status(401).send({ success: false, error: 'Unauthorized: Invalid or missing token' });
+            return reply.status(401).send({ success: false, error: 'Unauthorized: Invalid or missing token' });
         }
     });
 
@@ -113,7 +118,7 @@ async function build() {
             if (!fs.existsSync(uploadDir)) {
                 fs.mkdirSync(uploadDir, { recursive: true });
             }
-            fs.writeFileSync(path.join(uploadDir, safeFilename), buffer);
+            await fs.promises.writeFile(path.join(uploadDir, safeFilename), buffer);
 
             return {
                 success: true,
@@ -195,6 +200,25 @@ async function build() {
 
             const pdfBuffer = await PDFService.generateAnalysisReport(analysis);
 
+            reply.header('Content-Type', 'application/pdf');
+            reply.header('Content-Disposition', `attachment; filename="NanoScope_Report_${id}.pdf"`);
+            return reply.send(pdfBuffer);
+        } catch (error) {
+            server.log.error(error);
+            return reply.code(500).send({ success: false, error: 'Failed to generate PDF report' });
+        }
+    });
+
+    // Backwards-compatible alias: matches earlier API spec in docs.
+    server.get('/api/export/:id', { onRequest: [(server as any).authenticate] }, async (request: any, reply) => {
+        try {
+            const { id } = request.params;
+            const analysis = await prisma.analysis.findFirst({ where: { id, user_id: request.user.id } });
+            if (!analysis) {
+                return reply.code(404).send({ success: false, error: 'Analysis not found' });
+            }
+
+            const pdfBuffer = await PDFService.generateAnalysisReport(analysis);
             reply.header('Content-Type', 'application/pdf');
             reply.header('Content-Disposition', `attachment; filename="NanoScope_Report_${id}.pdf"`);
             return reply.send(pdfBuffer);
